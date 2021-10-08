@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-temperatura
+  name: deployment-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web
+      app: web-temperatura
   template:
     metadata:
       labels:
-        app: web
+        app: web-temperatura
     spec:
       containers:
-        - name: web
+        - name: container-app
           image: felippedeiro/conversao-temperatura:v1
           ports:
             - containerPort: 8080
@@ -23,13 +23,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: web-temperatura
+  name: service-app
 spec:
   selector:
-    app: web
+    app: web-temperatura
   ports:
     - port: 80
-      # vai bater na porta 80 do service, mas vai ser redirecionado pra porta 5000 do container
+      # vai bater na porta 80 do service, mas vai ser redirecionado pra porta 8080 do container
       targetPort: 8080
       nodePort: 30000
   type: NodePort
